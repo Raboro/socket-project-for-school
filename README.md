@@ -1,1 +1,1 @@
-# socket-projekt-for-school
+# socket-project-for-school
