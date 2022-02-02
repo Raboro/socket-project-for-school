@@ -16,7 +16,7 @@ class Server():
         self.continue_after_player = False
         self.player = []
         self.host = "127.0.0.1"
-        self.port = 55555
+        self.port = 1112
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind((self.host, self.port))
         self.server.listen()
@@ -39,7 +39,7 @@ class Server():
         time.sleep(2)
         print("[...]")
         time.sleep(1)
-        self.ttt_game = TicTacToe(self.client)
+        self.ttt_game = TicTacToe(self.client, self.server, self.name)
 
     def GuessRandomNumber(self):
         print("[SERVER] GuessRandomNumber selected")
