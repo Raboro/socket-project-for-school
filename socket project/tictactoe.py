@@ -10,15 +10,9 @@ class TicTacToe():
         self.client.send(bytes("\n[TICTACTOE] is starting\n", "utf-8"))
         time.sleep(3)
         self.board_elements = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
-        self.client.send(bytes("\n[TTT] do you wanna play against a player or against the server [player/server]\n", "utf-8"))
-        self.mode = client.recv(1024).decode("utf-8")
-        if self.mode == "player":
-            print("[TTT] Multiplayer selected")
-            self.multiplayer()
-        else:
-            print("[TTT] Singleplayer selected")
-            self.singleplayer()
+        self.game()
         print("Stop TTT")
+        self.client_2.close()
 
     def send_board(self):
         self.board = [
@@ -50,7 +44,6 @@ class TicTacToe():
         ]
 
     def set_position(self, character):
-        print(character)
         if self.board_elements[self.position] == " ":
             self.board_elements[self.position] = character
         else:
@@ -62,7 +55,6 @@ class TicTacToe():
 
 
     def check_if_winner(self):
-        print("check")
         # Hor.
         if self.board_elements[0] == self.board_elements[1] and self.board_elements[0] == self.board_elements[2] and self.board_elements[0] in ["X", "O"] :
             print(f"{self.header} WINNER")
@@ -90,11 +82,11 @@ class TicTacToe():
             return self.board_elements[2]
 
         # qu.
-        elif self.board_elements[0] == self.board_elements[4] and self.board_elements[0] == self.board_elements[8] and self.board_elements[3] in ["X", "O"]:
+        elif self.board_elements[0] == self.board_elements[4] and self.board_elements[0] == self.board_elements[8] and self.board_elements[0] in ["X", "O"]:
             print(f"{self.header} WINNER")
             return self.board_elements[0]
 
-        elif self.board_elements[2] == self.board_elements[4] and self.board_elements[2] == self.board_elements[6] and self.board_elements[3] in ["X", "O"]:
+        elif self.board_elements[2] == self.board_elements[4] and self.board_elements[2] == self.board_elements[6] and self.board_elements[2] in ["X", "O"]:
             print(f"{self.header} WINNER")
             return self.board_elements[2]
 
@@ -111,7 +103,15 @@ class TicTacToe():
             self.client_2.send(bytes(f"{self.header} Winner", "utf-8"))
             self.client.send(bytes(f"{self.header} Looser", "utf-8"))
 
-    def multiplayer(self):
+
+
+    def draw_game(self):
+        self.client.send(bytes(f"{self.header} Draw", "utf-8"))
+        self.client_2.send(bytes(f"{self.header} Draw", "utf-8"))
+
+
+
+    def game(self):
         print(f"{self.header} Waiting for second player")
         while True:
             self.client_2, self.address = self.server.accept()
@@ -128,7 +128,19 @@ class TicTacToe():
 
         self.player = 1
         self.is_winner = ""
+        self.draw = False
+
         while True:
+            for i in self.board_elements:
+                if i == " ":
+                    self.draw = False
+                    break
+                self.draw = True
+
+            if self.draw == True:
+                self.draw_game()
+                break
+
             self.send_board()
 
             if self.player == 1:
@@ -155,13 +167,5 @@ class TicTacToe():
                     break
                 self.player = 1
 
+        self.client_2.close()
         time.sleep(3)
-        #self.client_2.close()
-        print("Stop Mutli")
-
-
-    def singleplayer(self):
-        pass
-
-    def return_client(self):
-        return self.client

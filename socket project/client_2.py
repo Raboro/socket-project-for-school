@@ -46,6 +46,14 @@ class Client_2():
             while True:
                 try:
                     self.msg = self.client.recv(1024).decode("utf-8")
+
+                    if self.msg == "[TTT] Draw":
+                        print(self.msg)
+                        print("See you soon, byee :)")
+                        self.stop = True
+                        time.sleep(1)
+                        break
+
                     if self.msg == "[TTT] not you":
                         print("\n[TTT] waiting for the other player\n")
                         break
@@ -62,12 +70,19 @@ class Client_2():
 
                     elif self.msg == "[TTT] Winner":
                         print(self.msg)
+                        quit()
                         self.stop = True
+                        print("See you soon, byee :)")
+                        time.sleep(1)
                         break
 
                     elif self.msg == "[TTT] Looser":
+                        self.client.close()
                         print(self.msg)
+                        quit()
                         self.stop = True
+                        print("See you soon, byee :)")
+                        time.sleep(1)
                         break
 
                 except:

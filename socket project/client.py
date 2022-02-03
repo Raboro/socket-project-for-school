@@ -50,20 +50,6 @@ class Client():
                     while True:
                         try:
                             self.msg = self.client.recv(1024).decode("utf-8")
-                            print(self.msg)
-                            while True:
-                                self.response = input(f"<{self.name}> ~ ")
-                                if self.response in ["player", "server"]:
-                                    self.client.send(bytes(self.response, "utf-8"))
-                                    break
-                            break
-
-                        except:
-                            pass
-
-                    while True:
-                        try:
-                            self.msg = self.client.recv(1024).decode("utf-8")
                             if self.msg == "continue":
                                 break
                             else:
@@ -75,33 +61,46 @@ class Client():
                         self.get_board()
 
                         if self.stop == True:
-                            break
+                                print("quit")
+                                quit()
 
                         while True:
                             try:
                                 self.msg = self.client.recv(1024).decode("utf-8")
-                                if self.msg == "[TTT] not you":
+
+                                if self.msg == "[TTT] Draw":
+                                    print(self.msg)
+                                    print("See you soon, byee :)")
+                                    self.stop = True
+                                    time.sleep(1)
+                                    break
+
+                                elif self.msg == "[TTT] not you":
                                     print("\n[TTT] waiting for the other player\n")
                                     break
 
                                 elif self.msg == "[TTT] choose a field:":
-                                    print(self.msg)
-                                    while True:
-                                        self.response = input(f"<{self.name}> ~ ")
-                                        if self.response in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                                            self.client.send(bytes(self.response, "utf-8"))
-                                            break
-                                        else:
-                                            print("Please type a correct answer\n")
+                                        print(self.msg)
+                                        while True:
+                                            self.response = input(f"<{self.name}> ~ ")
+                                            if self.response in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                                                self.client.send(bytes(self.response, "utf-8"))
+                                                break
+                                            else:
+                                                print("Please type a correct answer\n")
 
                                 elif self.msg == "[TTT] Winner":
                                     print(self.msg)
                                     self.stop = True
+                                    print("See you soon, byee :)")
+                                    time.sleep(1)
                                     break
 
                                 elif self.msg == "[TTT] Looser":
                                     print(self.msg)
                                     self.stop = True
+                                    print("See you soon, byee :)")
+                                    time.sleep(1)
                                     break
 
                             except:
@@ -110,28 +109,110 @@ class Client():
                 # GuessRandomNumber
                 elif self.msg == "\n[GUESSRANDOMNUMBER] is starting\n":
                     print(self.msg)
+                    while True:
+                        try:
+                            self.msg = self.client.recv(1024).decode("utf-8")
+                            print(self.msg)
+                            break
+                        except:
+                            pass
+
+                    while True:
+                        while True:
+                            try:
+                                self.msg = self.client.recv(1024).decode("utf-8")
+
+
+                                if self.msg == "[GRN] Your guess:\n":
+                                    print(self.msg)
+                                    while True:
+                                        self.response = int(input(f"<{self.name}> ~ "))
+                                        if self.response <= 100:
+                                            self.client.send(bytes(str(self.response), "utf-8"))
+                                            break
+                                        else:
+                                            print("Please type a correct answer\n")
+
+                                elif self.msg == "\n[GRN] Your right\n":
+                                    print(self.msg)
+                                    break
+
+                                else:
+                                    print(self.msg)
+
+
+                            except:
+                                pass
+
+                        try:
+                            self.msg = self.client.recv(1024).decode("utf-8")
+                            print(self.msg)
+
+                            while True:
+                                self.response = input(f"<{self.name}> ~ ")
+                                if self.response in ["Yes", "No"]:
+                                    self.client.send(bytes(self.response, "utf-8"))
+                                    break
+                                else:
+                                    print("Please type a correct answer\n")
+
+                            if self.response == "No":
+                                print("See you soon, byee :)")
+                                time.sleep(1)
+                                break
+                        except:
+                            pass
 
                 # RockPaperScissors
                 elif self.msg == "\n[ROCKPAPERSCICCORS] is starting\n":
                     print(self.msg)
-
-                # continue or quit
-                if self.msg == "[SERVER] Continue [Yes/No]":
-                    print(f"{self.msg}\n")
                     while True:
-                        self.response = input(f"<{self.name}> ~ ")
-                        if self.response in ["Yes", "No"]:
-                            if self.response == "No":
-                                self.stop = True
-                            self.client.send(bytes(self.response, "utf-8"))
+                        try:
+                            self.msg = self.client.recv(1024).decode("utf-8")
+                            print(self.msg)
                             break
-                        else:
-                            print("That doesen´t work\n")
+                        except:
+                            pass
 
-                if self.stop == True:
-                    print("See you soon, byee :)")
-                    time.sleep(1)
-                    break
+                    while True:
+                        while True:
+                            try:
+                                self.msg = self.client.recv(1024).decode("utf-8")
+                                print(self.msg)
+                                while True:
+                                    self.response = input(f"<{self.name}> ~ ")
+                                    if self.response in ["1", "2", "3"]:
+                                        self.client.send(bytes(self.response, "utf-8"))
+                                        break
+                                    else:
+                                        print("Please type a correct answer\n")
+                                break
+
+                            except:
+                                pass
+
+                        try:
+                            self.msg = self.client.recv(1024).decode("utf-8")
+                            print(self.msg)
+
+                            while True:
+                                self.response = input(f"<{self.name}> ~ ")
+                                if self.response in ["Yes", "No"]:
+                                    self.client.send(bytes(self.response, "utf-8"))
+                                    break
+                                else:
+                                    print("Please type a correct answer\n")
+
+
+
+                        except:
+                            pass
+
+                        if self.response == "No":
+                            print("See you soon, byee :)")
+                            time.sleep(1)
+                            break
+
 
             except:
                 print("Something went wrong")

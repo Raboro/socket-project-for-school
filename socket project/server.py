@@ -58,27 +58,20 @@ class Server():
         self.rpc_game = RockPaperScissors(self.client)
 
     def choose_game(self):
+        self.msg = "[SERVER] You can choose between the games: [1 TICTACTOE][2 GuessRandomNumber][3 RockPaperScissors] -> [1, 2, 3]"
         while True:
-            self.msg = "[SERVER] You can choose between the games: [1 TICTACTOE][2 GuessRandomNumber][3 RockPaperScissors] -> [1, 2, 3]"
-            while True:
-                self.client.send(bytes(self.msg, "utf-8"))
-                self.response = self.client.recv(1024).decode("utf-8")
-                if self.response in ["1", "2", "3"]:
-                    break
-
-            self.game_options[self.response]()
-
-            print("[SERVER] Game closed")
-
-            self.client.send(bytes("[SERVER] Continue [Yes/No]", "utf-8"))
+            self.client.send(bytes(self.msg, "utf-8"))
             self.response = self.client.recv(1024).decode("utf-8")
-            if self.response == "No":
-                print("[SERVER] Quit")
-                print("[CANCEL SERVER]")
-                self.client.close()
+            if self.response in ["1", "2", "3"]:
                 break
 
+        self.game_options[self.response]()
+
+        print("[SERVER] Game closed")
+        time.sleep(2)
+        print("[SERVER] clossing")
 
 
 if __name__ == "__main__":
     Server()
+    quit()
