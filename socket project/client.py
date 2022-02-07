@@ -10,7 +10,6 @@ class Client():
         self.msg = self.client.recv(1024).decode("utf-8")
         print(self.msg)
         self.name = input(f"<?> ~ ")
-        self.stop = False
         self.client.send(self.name.encode("utf-8"))
         print("")
         for i in range(6):
@@ -46,36 +45,24 @@ class Client():
                 # TicTacToe
                 if self.msg == "\n[TICTACTOE] is starting\n":
                     print(self.msg)
-
                     while True:
                         try:
                             self.msg = self.client.recv(1024).decode("utf-8")
                             if self.msg == "continue":
                                 break
                             else:
-                                print("Something went wrong")
+                                pass
                         except:
                             pass
 
                     while True:
                         self.get_board()
 
-                        if self.stop == True:
-                                print("quit")
-                                quit()
-
                         while True:
                             try:
                                 self.msg = self.client.recv(1024).decode("utf-8")
 
-                                if self.msg == "[TTT] Draw":
-                                    print(self.msg)
-                                    print("See you soon, byee :)")
-                                    self.stop = True
-                                    time.sleep(1)
-                                    break
-
-                                elif self.msg == "[TTT] not you":
+                                if self.msg == "[TTT] not you":
                                     print("\n[TTT] waiting for the other player\n")
                                     break
 
@@ -88,23 +75,9 @@ class Client():
                                                 break
                                             else:
                                                 print("Please type a correct answer\n")
-
-                                elif self.msg == "[TTT] Winner":
-                                    print(self.msg)
-                                    self.stop = True
-                                    print("See you soon, byee :)")
-                                    time.sleep(1)
-                                    break
-
-                                elif self.msg == "[TTT] Looser":
-                                    print(self.msg)
-                                    self.stop = True
-                                    print("See you soon, byee :)")
-                                    time.sleep(1)
-                                    break
-
                             except:
                                 pass
+                        break
 
                 # GuessRandomNumber
                 elif self.msg == "\n[GUESSRANDOMNUMBER] is starting\n":
@@ -215,7 +188,9 @@ class Client():
 
 
             except:
-                print("Something went wrong")
+                pass
+
+            break
 
 if __name__ == "__main__":
     Client()
