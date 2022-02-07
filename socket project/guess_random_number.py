@@ -29,10 +29,10 @@ class GuessRandomNumber():
                     break
 
                 elif self.msg > self.random_number:
-                    self.client.send(bytes(f"\n{self.header} guess lower", "utf-8"))
+                    self.client.send(bytes(f"{self.header} guess lower\n", "utf-8"))
 
                 else:
-                    self.client.send(bytes(f"\n{self.header} guess higher", "utf-8"))
+                    self.client.send(bytes(f"{self.header} guess higher\n", "utf-8"))
 
                 self.counter += 1
 

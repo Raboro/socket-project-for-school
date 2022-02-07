@@ -11,6 +11,7 @@ class TicTacToe():
         time.sleep(3)
         self.board_elements = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         self.game()
+        print("Stop TTT")
         self.client.close()
         self.client_2.close()
 
@@ -127,7 +128,7 @@ class TicTacToe():
                 self.draw = True
 
             if self.draw == True:
-                print("[TTT] Draw")
+                print(f"{self.header} Draw")
                 break
 
             self.send_board()

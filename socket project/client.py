@@ -45,13 +45,14 @@ class Client():
                 # TicTacToe
                 if self.msg == "\n[TICTACTOE] is starting\n":
                     print(self.msg)
+
                     while True:
                         try:
                             self.msg = self.client.recv(1024).decode("utf-8")
                             if self.msg == "continue":
                                 break
                             else:
-                                pass
+                                print("Something went wrong")
                         except:
                             pass
 
@@ -75,9 +76,9 @@ class Client():
                                                 break
                                             else:
                                                 print("Please type a correct answer\n")
+
                             except:
                                 pass
-                        break
 
                 # GuessRandomNumber
                 elif self.msg == "\n[GUESSRANDOMNUMBER] is starting\n":
@@ -188,9 +189,7 @@ class Client():
 
 
             except:
-                pass
-
-            break
+                print("Something went wrong")
 
 if __name__ == "__main__":
     Client()

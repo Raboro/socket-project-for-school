@@ -9,10 +9,11 @@ class Client_2():
         self.msg = self.client.recv(1024).decode("utf-8")
         print(self.msg)
         self.name = input(f"<?> ~ ")
-        self.stop = False
         self.client.send(self.name.encode("utf-8"))
         print("\n")
         self.run()
+        print("See you soon, byee :)")
+        time.sleep(3)
 
     def get_board(self):
         for i in range(8):
@@ -37,9 +38,6 @@ class Client_2():
 
         while True:
             self.get_board()
-
-            if self.stop == True:
-                break
 
             while True:
                 try:
