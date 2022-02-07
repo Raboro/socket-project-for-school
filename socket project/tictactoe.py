@@ -11,7 +11,7 @@ class TicTacToe():
         time.sleep(3)
         self.board_elements = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         self.game()
-        print("Stop TTT")
+        self.client.close()
         self.client_2.close()
 
     def send_board(self):
@@ -96,19 +96,8 @@ class TicTacToe():
     def if_winner(self):
         if self.is_winner == "X":
             print(f"{self.header} {self.name_client} is the winner")
-            self.client.send(bytes(f"{self.header} Winner", "utf-8"))
-            self.client_2.send(bytes(f"{self.header} Looser", "utf-8"))
         else:
             print(f"{self.header} {self.name_client_2} is the winner")
-            self.client_2.send(bytes(f"{self.header} Winner", "utf-8"))
-            self.client.send(bytes(f"{self.header} Looser", "utf-8"))
-
-
-
-    def draw_game(self):
-        self.client.send(bytes(f"{self.header} Draw", "utf-8"))
-        self.client_2.send(bytes(f"{self.header} Draw", "utf-8"))
-
 
 
     def game(self):
@@ -138,7 +127,7 @@ class TicTacToe():
                 self.draw = True
 
             if self.draw == True:
-                self.draw_game()
+                print("[TTT] Draw")
                 break
 
             self.send_board()
@@ -167,5 +156,4 @@ class TicTacToe():
                     break
                 self.player = 1
 
-        self.client_2.close()
         time.sleep(3)

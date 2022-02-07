@@ -5,7 +5,6 @@ class GuessRandomNumber():
     def __init__(self, client):
         self.client = client
         self.header = "[GRN]"
-        self.counter = 0
         print(f"{self.header} Welcome to GuessRandomNumber")
         client.send(bytes("\n[GUESSRANDOMNUMBER] is starting\n", "utf-8"))
         time.sleep(3)
@@ -17,8 +16,7 @@ class GuessRandomNumber():
         self.client.send(bytes(f"{self.header} guess a number between 0 and 100", "utf-8"))
         time.sleep(1)
         while True:
-
-
+            self.counter = 0
             self.random_number = random.randint(0, 100)
             while True:
                 self.client.send(bytes(f"{self.header} Your guess:\n", "utf-8"))
@@ -31,10 +29,10 @@ class GuessRandomNumber():
                     break
 
                 elif self.msg > self.random_number:
-                    self.client.send(bytes(f"{self.header} guess lower\n", "utf-8"))
+                    self.client.send(bytes(f"\n{self.header} guess lower", "utf-8"))
 
                 else:
-                    self.client.send(bytes(f"{self.header} guess higher\n", "utf-8"))
+                    self.client.send(bytes(f"\n{self.header} guess higher", "utf-8"))
 
                 self.counter += 1
 
