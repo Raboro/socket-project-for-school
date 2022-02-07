@@ -1,5 +1,4 @@
 import socket
-import time
 from rock_paper_scissors import *
 from guess_random_number import *
 from tictactoe import *
