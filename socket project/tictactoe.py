@@ -1,4 +1,5 @@
 import time
+from gui import *
 
 class TicTacToe():
     def __init__(self, client, server, name):
@@ -44,13 +45,14 @@ class TicTacToe():
             " -------------\n"
         ]
 
-    def set_position(self, character):
+    def set_position(self, character, gui_obj):
         if self.board_elements[self.position] == " ":
             self.board_elements[self.position] = character
         else:
             print(f"{self.header} Wrong move, whats wrong with you")
 
         self.load_board()
+        gui_obj.load(self.board_elements)
         for i in self.board:
             print(i)
 
@@ -120,6 +122,8 @@ class TicTacToe():
         self.is_winner = ""
         self.draw = False
 
+        gui_obj = GUI(self.board_elements)
+
         while True:
             for i in self.board_elements:
                 if i == " ":
@@ -138,7 +142,7 @@ class TicTacToe():
                 self.client_2.send(bytes(f"{self.header} not you", "utf-8"))
                 self.position = self.client.recv(1024).decode("utf-8")
                 self.position = int(self.position)-1
-                self.set_position("X")
+                self.set_position("X", gui_obj)
                 self.is_winner = self.check_if_winner()
                 if self.is_winner !=  "":
                     self.if_winner()
